@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rokhos82/BE2/issues"
   },
-  "homepage": "https://github.com/rokhos82/BE2#readme"
+  "homepage": "https://github.com/rokhos82/BE2#readme",
+  "dependencies": {
+    "electron": "^2.0.2"
+  }
 }
