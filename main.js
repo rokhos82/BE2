@@ -10,6 +10,8 @@ function createWindow() {
   });
 
   win.loadURL(`file://${__dirname}/src/index.html`);
+
+  win.openDevTools();
 }
 
 app.on('ready',createWindow);
