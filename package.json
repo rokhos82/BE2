@@ -2,21 +2,27 @@
   "name": "be2",
   "version": "0.1.0",
   "description": "Not BE",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "electron": "electron ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rokhos82/BE2.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "",
   "bugs": {
     "url": "https://github.com/rokhos82/BE2/issues"
   },
   "homepage": "https://github.com/rokhos82/BE2#readme",
   "dependencies": {
-    "electron": "^2.0.2"
+    "angular": "^1.7.0",
+    "angular-ui-bootstrap": "^2.5.6",
+    "bootstrap3": "^3.3.5",
+    "electron": "^2.0.2",
+    "electron-store": "^2.0.0"
   }
 }
