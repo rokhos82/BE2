@@ -1,7 +1,9 @@
 // Import Moduels //////////////////////////////////////////////////////////////
 const {app,BrowserWindow,ipcMain,dialog} = require('electron');
+const fs = require('fs');
 const Store = require('electron-store');
 const {userDefaults} = require('./defaults.js');
+const {fileEvents} = require('./events.js');
 
 // Main window variable ////////////////////////////////////////////////////////
 let mainWindow;
@@ -12,6 +14,7 @@ let userStore = new Store({
   defaults: new userDefaults()
 });
 
+// Function Literals ///////////////////////////////////////////////////////////
 /**
 * Creates the main application window and setups event handlers.
 **/
@@ -37,9 +40,6 @@ function createWindow() {
   mainWindow.on('maximize',saveWindowProperties);
   mainWindow.on('unmaximized',saveWindowProperties);
   mainWindow.on('resize',saveWindowProperties);
-
-  // This is a test of the open file showOpenDialog
-  mainWindow.webContents.on('did-finish-load',openFile);
 }
 
 /**
@@ -54,12 +54,26 @@ function saveWindowProperties() {
 /**
 * Open a file from the local file system
 */
-function openFile() {
+function openFile(event) {
+  // Show the open file dialog to the user.
   const files = dialog.showOpenDialog(mainWindow,{
     properties: ['openFile']
   });
 
-  console.log(files);
+  // If no files selected then exit
+  if(files.length === 0) return console.log('No files selected');
+
+  // If files where selected, loop through each file and read it
+  files.forEach((fileName) => {
+    fs.readFile(fileName,'utf8',(err,data) => {
+      // If there was an error send to console.
+      if(err) return console.log(err);
+
+      // Send the contents to the console and the renderer process
+      console.log(data);
+      event.sender.send(fileEvents.fileOpened,data);
+    });
+  });
 }
 
 // Electron App Event Handlers /////////////////////////////////////////////////
@@ -72,3 +86,6 @@ app.on('window-all-close',function() {
     app.quit();
   }
 });
+
+// IPC Event Handlers //////////////////////////////////////////////////////////
+ipcMain.on(fileEvents.fileOpen,openFile);
