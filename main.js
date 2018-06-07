@@ -1,5 +1,5 @@
 // Import Moduels //////////////////////////////////////////////////////////////
-const {app,BrowserWindow,ipcMain} = require('electron');
+const {app,BrowserWindow,ipcMain,dialog} = require('electron');
 const Store = require('electron-store');
 const {userDefaults} = require('./defaults.js');
 
@@ -31,14 +31,15 @@ function createWindow() {
   }
 
   // Uncomment the line below to enable Chrome Dev Tools.
-  //mainWindow.openDevTools();
+  mainWindow.openDevTools();
 
   // Save current window properties as they change.
   mainWindow.on('maximize',saveWindowProperties);
   mainWindow.on('unmaximized',saveWindowProperties);
   mainWindow.on('resize',saveWindowProperties);
 
-
+  // This is a test of the open file showOpenDialog
+  mainWindow.webContents.on('did-finish-load',openFile);
 }
 
 /**
@@ -48,6 +49,17 @@ function saveWindowProperties() {
   let {width,height} = mainWindow.getBounds();
   let maximized = mainWindow.isMaximized();
   userStore.set('windowProperties',{width,height,maximized});
+}
+
+/**
+* Open a file from the local file system
+*/
+function openFile() {
+  const files = dialog.showOpenDialog(mainWindow,{
+    properties: ['openFile']
+  });
+
+  console.log(files);
 }
 
 // Electron App Event Handlers /////////////////////////////////////////////////
