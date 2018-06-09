@@ -1,4 +1,4 @@
-<div class="row">
+<!--<div class="row">
   <div class="col-lg-12">
     <div class="btn-toolbar">
       <button class="btn btn-primary" ng-click="$ctrl.onOpenFile()">Load Attacker</button>
@@ -13,5 +13,49 @@
         <pre>{{$ctrl.file}}</pre>
       </div>
     </div>
+  </div>
+</div>-->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Example Unit
+      </div>
+      <div class="panel-body">
+        <pre>{{"Beam Frigate,starship,6,defense 15,0,0,,9,9,,[volley 4 target 15][volley 4 target 15],[volley 4 size 1 target 10 yield 10]"}}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <fieldset>
+            <legend>UDL Test</legend>
+            <div class="form-group">
+              <label for="udlInput" class="col-lg-2 control-label">UDL</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="udlInput" placeholder="Beam Frigate,starship,6,defense 15,0,0,,9,9,,[volley 4 target 15][volley 4 target 15],[volley 4 size 1 target 10 yield 10]" ng-model="udl">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-lg-10 col-lg-offset-2">
+                <button type="submit" class="btn btn-primary" ng-click="$ctrl.loadUDL(udl)">Load UDL</button>
+              </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Internal JSON Object
+      </div>
+      <div class="panel-body">
+        <pre>{{$ctrl.unitJson | json}}</pre>
+      </div>
   </div>
 </div>
