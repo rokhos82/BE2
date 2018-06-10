@@ -63,5 +63,6 @@ typings/
 
 # electron-packager output
 be2-win32-x64/
+dist/
 
 # End of https://www.gitignore.io/api/node

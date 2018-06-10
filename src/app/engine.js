@@ -70,6 +70,16 @@
           name: "deflect",
           regex: /deflect ([0-9]+)/gi,
           parse: parseInt
+        },
+        {
+          name: "warhead",
+          regex: /warhead ([0-9]+)/gi,
+          parse: parseInt
+        },
+        {
+          name: "count",
+          regex: /count ([0-9]+)/gi,
+          parse: parseInt
         }
       ];
 
@@ -128,7 +138,6 @@
 
         let udlArray = udlString.split(',');
 
-        unit.udl = udlString;
         unit.general.name = udlArray[offsets.name];
         unit.general.type = udlArray[offsets.type];
         unit.general.size = udlArray[offsets.size];
@@ -141,73 +150,27 @@
         parseTags(udlArray[offsets.shieldTags],unit.shield);
         parseTags(udlArray[offsets.hullTags],unit.hull);
 
-        let batteryRegex = new RegExp(weaponRegex);
         let batteryString = udlArray[offsets.batteries];
-        batteryString.match(batteryRegex).forEach(function(element) {
-          let battery = parseDirectFireWeapon(element);
-          unit["direct-fire"].push(battery);
-        });
+        if(batteryString.length > 0) {
+          let batteryRegex = new RegExp(weaponRegex);
+          batteryString.match(batteryRegex).forEach(function(element) {
+            let battery = {};
+            parseTags(element,battery);
+            unit["direct-fire"].push(battery);
+          });
+        }
 
-        let launcherRegex = new RegExp(weaponRegex);
         let launcherString = udlArray[offsets.launchers];
-        launcherString.match(launcherRegex).forEach(function(element) {
-          let launcher = parseIndirectFireWeapon(element);
-          unit["indirect-fire"].push(launcher);
-        });
+        if(launcherString.length > 0) {
+          let launcherRegex = new RegExp(weaponRegex);
+          launcherString.match(launcherRegex).forEach(function(element) {
+            let launcher = {};
+            parseTags(element,launcher);
+            unit["indirect-fire"].push(launcher);
+          });
+        }
 
         return unit;
-      }
-
-      function parseDirectFireWeapon(weaponString) {
-        let weapon = {};
-
-        weapon.udl = weaponString;
-
-        let volleyTag = new RegExp(volleyRegex).exec(weaponString);
-        if(volleyTag !== null) {
-          let v = parseInt(volleyTag[1]);
-          weapon.volley = v;
-        }
-
-        let targetTag = new RegExp(targetRegex).exec(weaponString);
-        if(targetTag !== null) {
-          let t = parseInt(targetTag[1]);
-          weapon.target = t;
-        }
-
-        let yieldTag = new RegExp(yieldRegex).exec(weaponString);
-        if(yieldTag !== null) {
-          let y = parseInt(yieldTag[1]);
-          weapon.yield = y;
-        }
-
-        return weapon;
-      }
-
-      function parseIndirectFireWeapon(weaponString) {
-        let weapon = {};
-
-        weapon.udl = weaponString;
-
-        let volleyTag = new RegExp(volleyRegex).exec(weaponString);
-        if(volleyTag !== null) {
-          let v = parseInt(volleyTag[1]);
-          weapon.volley = v;
-        }
-
-        let targetTag = new RegExp(targetRegex).exec(weaponString);
-        if(targetTag !== null) {
-          let t = parseInt(targetTag[1]);
-          weapon.target = t;
-        }
-
-        let yieldTag = new RegExp(yieldRegex).exec(weaponString);
-        if(yieldTag !== null) {
-          let y = parseInt(yieldTag[1]);
-          weapon.yield = y;
-        }
-
-        return weapon;
       }
 
       function parseTags(tagString,obj) {

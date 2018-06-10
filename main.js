@@ -40,6 +40,11 @@ function createWindow() {
   mainWindow.on('maximize',saveWindowProperties);
   mainWindow.on('unmaximized',saveWindowProperties);
   mainWindow.on('resize',saveWindowProperties);
+
+  // Is the window closed?
+  mainWindow.on('closed',() => {
+    mainWindow = undefined;
+  });
 }
 
 /**
