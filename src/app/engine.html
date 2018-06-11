@@ -27,7 +27,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<!--<div class="row">
   <div class="col-lg-6 col-md-6">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -57,5 +57,81 @@
       <div class="panel-body">
         <pre>{{$ctrl.unitJson | json}}</pre>
       </div>
+  </div>
+</div>-->
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Attacker UDL
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="udlAttackerInput" class="col-lg-2 control-label">UDL</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="udlAttackerInput" placeholder="name,type,size,tags,hullMax,hullCur,hullTags,shieldMax,shieldCur,shieldTags,batteryTags,launcherTags" ng-model="udlA">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="submit" class="btn btn-primary" ng-click="$ctrl.loadAttacker(udlA)">Load Attacker</button>
+            </div>
+          </div>
+        </form>
+        <pre>{{$ctrl.attacker | json}}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Defender UDL
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="udlDefenderInput" class="col-lg-2 control-label">UDL</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" id="udlDefenderInput" placeholder="name,type,size,tags,hullMax,hullCur,hullTags,shieldMax,shieldCur,shieldTags,batteryTags,launcherTags" ng-model="udlD">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button type="submit" class="btn btn-primary" ng-click="$ctrl.loadDefender(udlD)">Load Defender</button>
+            </div>
+          </div>
+        </form>
+        <pre>{{$ctrl.defender | json}}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Combat Controls
+      </div>
+      <div class="panel-body">
+        <div class="btn-toolbar">
+          <div class="btn-group btn-group-justified">
+            <a href class="btn btn-danger btn-lg btn-block" ng-click="$ctrl.fight()">Fight!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Combat Output
+      </div>
+      <div class="panel-body">
+        <pre>{{$ctrl.combatOutput | json}}</pre>
+      </div>
+    </div>
   </div>
 </div>
