@@ -14,6 +14,8 @@
         };
 
         let weaponRegex = /\[(.*?)\]/gi;
+        let captureRegex = /\[(capture .+?)\]/gi;
+        let repelRegex = /\[(repel .+?)\]/gi;
 
         let tagRegex = [
           {
@@ -84,13 +86,15 @@
             hullCur: offset++,
             hullTags: offset++,
             batteries: offset++,
-            launchers: offset++
+            launchers: offset++,
+            capture: offset++
           };
 
           let unit = {
             general: {},
             shield: {},
             hull: {},
+            capture: {},
             "direct-fire": [],
             "indirect-fire": []
           };
@@ -99,15 +103,17 @@
 
           unit.general.name = udlArray[offsets.name];
           unit.general.type = udlArray[offsets.type];
-          unit.general.size = udlArray[offsets.size];
-          unit.shield.max = udlArray[offsets.shieldMax];
-          unit.shield.current = udlArray[offsets.shieldCur];
-          unit.hull.max = udlArray[offsets.hullMax];
-          unit.hull.current = udlArray[offsets.hullCur];
+          unit.general.size = parseInt(udlArray[offsets.size]);
+          unit.shield.max = parseInt(udlArray[offsets.shieldMax]);
+          unit.shield.current = parseInt(udlArray[offsets.shieldCur]);
+          unit.hull.max = parseInt(udlArray[offsets.hullMax]);
+          unit.hull.current = parseInt(udlArray[offsets.hullCur]);
 
           parseTags(udlArray[offsets.unitTags],unit.general);
           parseTags(udlArray[offsets.shieldTags],unit.shield);
           parseTags(udlArray[offsets.hullTags],unit.hull);
+
+          parseCapture(udlArray[offsets.capture],unit.capture);
 
           let batteryString = udlArray[offsets.batteries];
           if(batteryString.length > 0) {
@@ -139,6 +145,20 @@
               obj[tag.name] = tag.parse(new RegExp(tag.regex).exec(tagString)[1]);
             }
           });
+        }
+
+        function parseCapture(captureString,captureObj) {
+          let captureReg = new RegExp(captureRegex);
+          let repelReg = new RegExp(repelRegex);
+
+          let captures;
+          while((captures = captureReg.exec(captureString)) !== null) {
+            $log.info(captures[1]);
+          }
+          let repels;
+          while((repels = repelReg.exec(captureString)) !== null) {
+            $log.info(repels[1]);
+          }
         }
     }
 })();

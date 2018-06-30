@@ -10,5 +10,7 @@
 
     angular
         .module('app.core', [
+          'mobius.core',
+          'mobius.simulator'
         ]);
 })();

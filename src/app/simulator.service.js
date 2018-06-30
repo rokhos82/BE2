@@ -23,7 +23,7 @@
     /**
     * This service handles the combat simulation and the worker threads
     * that get generated to make it all happen.
-    */+
+    */
     function combatSimulator($log) {
       // Define the factory object to be returned
       var service = {
@@ -35,11 +35,43 @@
 
       // Function Literals /////////////////////////////////////////////////////
       /**
-      *
+      * Setup the combat log and initial unit state for the first turn
       */
       function doCombat(combatants) {
-        $log.info(combatants);
-        return combatants;
+        // The combat turn object
+        let Turn = function(t) {
+          this.turn = t;
+          this.initial = {};
+          this.delta = {};
+        };
+
+        // The combat log class
+        let Combat = function(name) {
+          this.name = name;
+          this.turns = [];
+        };
+
+        Combat.prototype.setup = function(fleets) {
+          // Get the attacking and defending fleets.  This will be more generic
+          // and flexible in relase.
+          this.fleets = fleets;
+          let attacker = fleets[0];
+          let defender = fleets[1];
+
+          // Setup the first turns initial state
+          let turn = new Turn(0);
+          this.turns.unshift(turn);
+        };
+
+        // The combat object
+        let combat = new Combat("Test");
+
+        // Setup combat
+        combat.setup(combatants);
+
+        $log.info(combat);
+
+        return combat;
       }
     }
 })();
