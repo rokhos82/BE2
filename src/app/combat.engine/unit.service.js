@@ -30,7 +30,7 @@
   }
 
   angular
-    .module('mobius.core')
+    .module('combatEngine.core')
     .factory('unit.service', unitService);
 
   unitService.$inject = ['$log'];

@@ -13,7 +13,7 @@
     * This service can be injected as combatSimulator
     */
     angular
-        .module('app.core')
+        .module('combatEngine.core')
         .factory('combatSimulator', combatSimulator);
 
     // Inject any dependencies that this services needs ////////////////////////

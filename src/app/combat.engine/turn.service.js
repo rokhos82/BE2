@@ -29,7 +29,7 @@
 
   // Setup the component and the module it belongs to ////////////////////////
   angular
-    .module('mobius.simulator')
+    .module('combatEngine.core')
     .factory('turn.service', turnService);
 
   // Inject any dependencies that this service needs /////////////////////////

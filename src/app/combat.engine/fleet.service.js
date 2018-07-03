@@ -42,7 +42,7 @@
 
   // Setup the component and the module it belongs to ////////////////////////
   angular
-    .module('mobius.core')
+    .module('combatEngine.core')
     .factory('fleet.service', turnService);
 
   // Inject any dependencies that this service needs /////////////////////////
