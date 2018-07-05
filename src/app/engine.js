@@ -32,13 +32,13 @@
     }
 
     // Inject any dependencies for this component //////////////////////////////
-    appEngineCtl.$inject = ['$log','$scope',"combatSimulator","udlParser"];
+    appEngineCtl.$inject = ['$log','$scope',"combatSimulator","unit.service"];
 
     /**
     * This is the controller function for the appEngine component.  It can
     * be referenced via $ctrl in HTML.
     */
-    function appEngineCtl($log,$scope,simulator,parser) {
+    function appEngineCtl($log,$scope,simulator,$unit) {
       // A reference to this, meaning the controller function, for use
       // in other function literals.
       let $ctrl = this;
@@ -95,7 +95,7 @@
       * @param {string} udlString - This is the UDL string for the unit.
       */
       function loadUDL(udlString) {
-        $ctrl.unitJson = parser.parseUDL(udlString);
+        $ctrl.unitJson = $unit.create(udlString);
       }
 
       /**
@@ -105,7 +105,7 @@
       function loadAttacker(udlString) {
         // Currently this is a single unit UDL.  Will work on a full fleet
         // in the future.
-        $ctrl.attacker = parser.parseUDL(udlString);
+        $ctrl.attacker = $unit.create(udlString);
       }
 
       /**
@@ -115,7 +115,7 @@
       function loadDefender(udlString) {
         // Currently this is a single unit UDL.  Will work on a full fleet
         // in the future.
-        $ctrl.defender = parser.parseUDL(udlString);
+        $ctrl.defender = $unit.create(udlString);
       }
 
       /**

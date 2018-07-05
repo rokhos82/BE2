@@ -8,25 +8,6 @@
 (function() {
   'use strict';
 
-  // Turn Class //////////////////////////////////////////////////////////////
-  class Turn {
-    constructor(t) {
-      this.turn = t;
-      this.initial = {};
-      this.delta = {};
-    }
-
-    get fleets() {
-    }
-
-    change() {}
-
-    next() {
-      // Apply the delta to the initial and return the new object
-      let t = new Turn(this.turn+1);
-    }
-  }
-
   // Setup the component and the module it belongs to ////////////////////////
   angular
     .module('combatEngine.core')
@@ -38,17 +19,29 @@
   // The factory function that defines this service //////////////////////////
   function turnService($log) {
     var service = {
-      initial: initial,
-      next: next
+      create: create
     };
 
     return service;
 
-    function initial() {
-      return new Turn(0);
+    function create(prev) {
+      let current;
+      if(typeof prev === 'object') {
+        current = new turn(prev.turn + 1);
+        prev.next = current;
+      }
+      else {
+        current = new turn(0);
+      }
+
+      return current;
     }
 
-    function next(curTurn) {
+    function turn(t) {
+      this.turn = t;
+      this.initial = {};
+      this.delta = {};
+      this.next = null;
     }
   }
 })();
