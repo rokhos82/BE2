@@ -33,13 +33,10 @@
 
     function nextTurn(prev) {
       let current;
-      if(typeof prev === 'object') {
-        current = new turn(prev.turn + 1);
-        prev.next = current;
-      }
-      else {
-        current = new turn(0);
-      }
+
+      current = new turn(prev.turn + 1);
+      prev.next = current;
+      current.initial
 
       return current;
     }

@@ -32,7 +32,7 @@
     */
     function arrayToDictionary(fleetArray,generateUUID) {
       let dict = {};
-      fleetArray.foreach(function(fleet){
+      fleetArray.forEach(function(fleet){
         if(generateUUID && !fleet.uuid) {
           let uuid = Math.random();
           fleet.uuid = uuid.toString();
@@ -53,7 +53,7 @@
     */
     function isAlive(fleet) {
       let alive = false;
-      fleet.units.foreach(function(unit){
+      fleet.units.forEach(function(unit){
         if(unitService.isAlive(unit)){
           alive = true;
         }
@@ -66,7 +66,7 @@
     */
     function targetList(fleet) {
       let targets = [];
-      fleet.units.foreach(function(unit){
+      fleet.units.forEach(function(unit){
         this.push(unitService.getID(unit));
       },targets);
       return targets;

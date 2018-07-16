@@ -42,6 +42,7 @@
         let Combat = function(name) {
           this.name = name;
           this.turns = [];
+          this.lastTurn = null;
         };
 
         Combat.prototype.setup = function(fleets) {
@@ -53,14 +54,22 @@
 
           // Setup the first turns initial state
           let turn = turnService.firstTurn(this.fleets);
+          this.lastTurn = turn;
           this.turns.unshift(turn);
         };
+
+        Combat.prototype.runTurn = function() {
+          let turn = turnService.nextTurn(this.lastTurn);
+          this.lastTurn = turn;
+          this.turns.unshift(turn);
+        }
 
         // The combat object
         let combat = new Combat("Test");
 
         // Setup combat
         combat.setup(combatants);
+        combat.runTurn();
 
         $log.info(combat);
 
