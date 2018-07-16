@@ -14,17 +14,24 @@
     .factory('turn.service', turnService);
 
   // Inject any dependencies that this service needs /////////////////////////
-  turnService.$inject = ['$log'];
+  turnService.$inject = ['$log','fleet.service'];
 
   // The factory function that defines this service //////////////////////////
-  function turnService($log) {
+  function turnService($log,fleetService) {
     var service = {
-      create: create
+      firstTurn: firstTurn,
+      nextTurn: nextTurn
     };
 
     return service;
 
-    function create(prev) {
+    function firstTurn(fleets) {
+      let t = new turn(1);
+      t.initial = fleetService.arrayToDictionary(fleets);
+      return t;
+    }
+
+    function nextTurn(prev) {
       let current;
       if(typeof prev === 'object') {
         current = new turn(prev.turn + 1);

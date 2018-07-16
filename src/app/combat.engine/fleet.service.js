@@ -8,51 +8,68 @@
 (function() {
   'use strict';
 
-  // Fleet Class ///////////////////////////////////////////////////////////////
-  class Fleet {
-    constructor(name) {
-      this.name = name;
-      this.units = {};
-    }
-
-    get units() {
-      return this.units;
-    }
-
-    get targets() {
-      return this.targetList();
-    }
-
-    targetList() {
-      let list = [];
-      for(var unit in this.units) {
-        if (this.units.hasOwnProperty(unit)) {
-          list.push(unit.id);
-        }
-      }
-    }
-
-    addUnit(unit) {
-      let id = unit.id;
-      this.units[id] = unit;
-    }
-
-    addUnits(units) {}
-  }
-
   // Setup the component and the module it belongs to ////////////////////////
   angular
     .module('combatEngine.core')
-    .factory('fleet.service', turnService);
+    .factory('fleet.service', fleetService);
 
   // Inject any dependencies that this service needs /////////////////////////
-  turnService.$inject = ['$log','unit.service'];
+  fleetService.$inject = ['$log','unit.service'];
 
   // The factory function that defines this service //////////////////////////
-  function turnService($log,unitService) {
+  function fleetService($log,unitService) {
     var service = {
+      arrayToDictionary: arrayToDictionary,
+      isAlive: isAlive,
+      targetList: targetList
     };
 
     return service;
+
+    /**
+    * Build a dictionary of fleets from an array of fleets.  Allows gener-
+    * tion of UUIDs if desired.
+    */
+    function arrayToDictionary(fleetArray,generateUUID) {
+      let dict = {};
+      fleetArray.foreach(function(fleet){
+        if(generateUUID && !fleet.uuid) {
+          let uuid = Math.random();
+          fleet.uuid = uuid.toString();
+          this[fleet.uuid] = fleet;
+        }
+        else if(!!fleet.uuid) {
+          this[fleet.uuid] = fleet;
+        }
+        else {
+          this[fleet.name] = fleet;
+        }
+      },dict);
+      return dict;
+    }
+
+    /**
+    * Are there any units left in the fleet
+    */
+    function isAlive(fleet) {
+      let alive = false;
+      fleet.units.foreach(function(unit){
+        if(unitService.isAlive(unit)){
+          alive = true;
+        }
+      });
+      return alive;
+    }
+
+    /**
+    * Get the target list for the fleet
+    */
+    function targetList(fleet) {
+      let targets = [];
+      fleet.units.foreach(function(unit){
+        this.push(unitService.getID(unit));
+      },targets);
+      return targets;
+    }
   }
 })();

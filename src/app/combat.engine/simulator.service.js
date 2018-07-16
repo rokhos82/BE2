@@ -52,7 +52,7 @@
           let defender = fleets[1];
 
           // Setup the first turns initial state
-          let turn = turnService.create();
+          let turn = turnService.firstTurn(this.fleets);
           this.turns.unshift(turn);
         };
 
