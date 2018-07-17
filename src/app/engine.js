@@ -68,7 +68,7 @@
       // Right now there are only two fleets and the names are hard coded.
       // Will eventually have this be 2 or more fleets with custom names
       // loaded from files or imported via another method.
-      $ctrl.combatOutput = simulator.doCombat([
+      $ctrl.combatOutput = simulator.prepare([
         {
           name: "Attackers",
           units: [$ctrl.attacker]

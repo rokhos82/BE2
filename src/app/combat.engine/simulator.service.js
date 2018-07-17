@@ -27,7 +27,7 @@
     function combatSimulator($log,turnService) {
       // Define the factory object to be returned
       var service = {
-          doCombat: doCombat
+          prepare: prepare
       };
 
       // Return the factory object
@@ -37,43 +37,35 @@
       /**
       * Setup the combat log and initial unit state for the first turn
       */
-      function doCombat(combatants) {
-        // The combat log class
-        let Combat = function(name) {
-          this.name = name;
-          this.turns = [];
-          this.lastTurn = null;
-        };
-
-        Combat.prototype.setup = function(fleets) {
-          // Get the attacking and defending fleets.  This will be more generic
-          // and flexible in relase.
-          this.fleets = fleets;
-          let attacker = fleets[0];
-          let defender = fleets[1];
-
-          // Setup the first turns initial state
-          let turn = turnService.firstTurn(this.fleets);
-          this.lastTurn = turn;
-          this.turns.unshift(turn);
-        };
-
-        Combat.prototype.runTurn = function() {
-          let turn = turnService.nextTurn(this.lastTurn);
-          this.lastTurn = turn;
-          this.turns.unshift(turn);
-        }
-
+      function prepare(combatants) {
         // The combat object
         let combat = new Combat("Test");
 
         // Setup combat
         combat.setup(combatants);
-        combat.runTurn();
 
         $log.info(combat);
 
         return combat;
       }
+
+      // Combat Object
+      // The combat log class
+      function Combat(name) {
+        this.name = name;
+        this.turns = [];
+      };
+
+      Combat.prototype.setup = function(fleets) {
+        // Get the attacking and defending fleets.  This will be more generic
+        // and flexible in relase.
+        this.fleets = fleets;
+        let attacker = fleets[0];
+        let defender = fleets[1];
+
+        // Setup the first turns initial state
+        let turn = turnService.firstTurn(this.fleets);
+        this.turns.unshift(turn);
+      };
     }
 })();

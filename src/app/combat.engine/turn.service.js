@@ -26,7 +26,7 @@
     return service;
 
     function firstTurn(fleets) {
-      let t = new turn(1);
+      let t = new turn(0);
       t.initial = fleetService.arrayToDictionary(fleets);
       return t;
     }
